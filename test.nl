@@ -3,11 +3,14 @@ cimport stdlib.h;
 cimport string.h;
 
 func main(int argc, (arr)string argv) -> int {
-    (arr)string s = [ "hello", "world" ];
-    (ptr)char p = s[0];
-    p = s[1];
-    (arr)(zero)char z;
-    printf("%s\n", z);
-    printf("%s\n", p);
+    zero argv[2];
+    
+    for (int i = 0; i < argc; i++)
+        print("%s\n", argv[i]);
+
+    if (argv[1] s== "hello" && argv[1] s== argv[3]) {
+        printf("Same\n");
+    }
+
     return 0;
 }

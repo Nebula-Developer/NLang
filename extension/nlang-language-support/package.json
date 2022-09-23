@@ -1,0 +1,210 @@
+{
+  "name": "nlang-language-support",
+  "displayName": "NLang Language Support",
+  "description": "Language support for NLang",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.71.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:nlang-language-support.helloWorld",
+    "onLanguage:nlang"
+  ],
+  "capabilities": {
+    "completionProvider": {
+      "resolveProvider": true,
+      "triggerCharacters": [
+        " ",
+        ".",
+        "(",
+        ")",
+        "[",
+        "]",
+        "{",
+        "}",
+        ",",
+        ";",
+        ":",
+        "=",
+        "+",
+        "-",
+        "*",
+        "/",
+        "%",
+        "&",
+        "|",
+        "^",
+        "<",
+        ">",
+        "!",
+        "?",
+        "~",
+        "'",
+        "\"",
+        "`",
+        "@",
+        "#",
+        "$",
+        "\\",
+        "\t",
+        "\r",
+        "\n"
+      ]
+    },
+    "hoverProvider": true,
+    "signatureHelpProvider": {
+      "triggerCharacters": [
+        "(",
+        ",",
+        "="
+      ]
+    },
+    "semanticTokenProvider": {
+      "legend": {
+        "tokenTypes": [
+          "namespace",
+          "type",
+          "class",
+          "enum",
+          "interface",
+          "struct",
+          "typeParameter",
+          "parameter",
+          "variable",
+          "property",
+          "enumMember",
+          "event",
+          "function",
+          "method",
+          "macro",
+          "keyword",
+          "modifier",
+          "comment",
+          "string",
+          "number",
+          "regexp",
+          "operator"
+        ],
+        "tokenModifiers": [
+          "declaration",
+          "documentation",
+          "readonly",
+          "static",
+          "abstract",
+          "deprecated",
+          "modification",
+          "async",
+          "defaultLibrary"
+        ]
+      },
+      "full": {
+        "delta": true
+      }
+    },
+    "definitionProvider": true
+  },
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "nlang-language-support.helloWorld",
+        "title": "Hello World"
+      }
+    ],
+    "languages": [{
+      "id": "nlang",
+      "aliases": ["NLang", "nlang"],
+      "extensions": [".nl",".nlang"],
+      "configuration": "./language-configuration.json",
+      "icon": {
+        "light": "./icon.png",
+        "dark": "./icon.png"
+      }
+    }],
+    "grammars": [{
+      "language": "nlang",
+      "scopeName": "source.nlang",
+      "path": "./syntaxes/nlang.tmLanguage.json"
+    }],
+    "semanticTokenScopes": [
+      {
+        "language": "nlang",
+        "scopes": {
+          "namespace": [
+            "entity.name.namespace"
+          ],
+          "type": [
+            "entity.name.type"
+          ],
+          "class": [
+            "entity.name.class"
+          ],
+          "enum": [
+            "entity.name.enum"
+          ],
+          "interface": [
+            "entity.name.interface"
+          ],
+          "struct": [
+            "entity.name.struct"
+          ],
+          "typeParameter": [
+            "entity.name.typeParameter"
+          ],
+          "parameter": [
+            "variable.parameter"
+          ],
+          "variable": [
+            "variable"
+          ],
+          "property": [
+            "variable.other.property"
+          ],
+          "enumMember": [
+            "variable.other.enumMember"
+          ],
+          "event": [
+            "variable.other.event"
+          ],
+          "function": [
+            "entity.name.function"
+          ],
+          "method": [
+            "entity.name.function.method"
+          ],
+          "macro": [
+            "entity.name.macro"
+          ],
+          "keyword": [
+            "keyword"
+          ],
+          "modifier": [
+            "storage.modifier"
+          ],
+          "comment": [
+            "comment"
+          ]
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "node ./test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.71.0",
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "16.x",
+    "eslint": "^8.20.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.0.0",
+    "typescript": "^4.7.4",
+    "@vscode/test-electron": "^2.1.5"
+  }
+}

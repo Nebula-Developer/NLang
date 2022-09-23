@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
 using System;
@@ -34,18 +35,6 @@ public static class NLanguage {
         //  #include <stdio.h>
         RegexReplace(@"cimport\s+([a-zA-Z0-9_\.]+);", "#include <$1>");
 
-        // NLang array:
-        //  (arr)int myIntArray = [ 1, 2, 3, 4 ]
-        // C:
-        //  int myIntArray[] = { 1, 2, 3, 4 }
-        RegexReplace(@"\((arr)\)([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)\s*=\s*\[(.*)\]", "$2 $3[] = {$4}");
-
-        // NLang array in argument:
-        //  (arr)int myIntArray
-        // C:
-        //  int myIntArray[]
-        RegexReplace(@"\((arr)\)([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)", "$2 **$3");
-
         // NLang Function:
         //  func <name>(<args>) -> <return type> { ... }
         // C:
@@ -66,32 +55,79 @@ public static class NLanguage {
         // for (int i = 0; i < sizeof(arr)/sizeof(arr[0]); i++) printf("%c", arr[i]);
         RegexReplace(@"foreach\s*\(\s*([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)\s+in\s+([a-zA-Z0-9_]+)\s*\)\s*([a-zA-Z0-9_]+)\s*\(", "for (int i = 0; i < sizeof($3)/sizeof($3[0]); i++) $4($2 = $3[i], ");
 
-        // NLang pointer:
-        //  (ptr)int myInt = 5;
-        // C:
-        //  int* myInt = 5;
-        RegexReplace(@"\((ptr)\)([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)\s*=\s*([a-zA-Z0-9_]+)", "$2* $3 = $4");
-
-        // NLang pointer in argument:
-        //  (ptr)int myInt
-        // C:
-        //  int* myInt
-        RegexReplace(@"\((ptr)\)([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)", "$2* $3");
-
         // NLang class:
         //  class <name> { ... }
         // C:
         //  typedef struct { ... } <name>;
         RegexReplace(@"class\s+([a-zA-Z0-9_]+)\s*{", "typedef struct {");
 
-        // NLang zero:
-        //  (zero)int myInt;
+        // NLang array modifier:
+        //  (arr)int arr = [1, 2, 3];
         // C:
-        //  int myInt = 0;
+        //  int arr[] = {1, 2, 3};
+        // Also:
+        //  (arr->100)char myString; // where ->100 is the length of the array
+        //  char myString[100];
+        RegexReplace(@"\(\s*arr\s*->(\s*[0-9]+)?\s*\)\s*([a-zA-Z0-9_]+)\s*([a-zA-Z0-9_]+)", "$2 $3[$1]");
+        RegexReplace(@"\(\s*arr\s*(\s*[0-9]+)?\s*\)\s*([a-zA-Z0-9_]+)\s*([a-zA-Z0-9_]+)", "$2 $3[]");
+        RegexReplace(@"\(\s*array\s*->(\s*[0-9]+)?\s*\)\s*([a-zA-Z0-9_]+)\s*([a-zA-Z0-9_]+)", "$2 $3[$1]");
+        RegexReplace(@"\(\s*array\s*(\s*[0-9]+)?\s*\)\s*([a-zA-Z0-9_]+)\s*([a-zA-Z0-9_]+)", "$2 $3[]");
+
+        // NLang enum:
+        //  enum <name> { ... }
+        // C:
+        //  typedef enum { ... } <name>;
+        RegexReplace(@"enum\s+([a-zA-Z0-9_]+)\s*{", "typedef enum {");
+
+        // NLang if quick:
+        //  a == b ? { ... } : { ... }
+        // C:
+        //  if (a == b) { ... } else { ... }
         // Example:
-        //  (zero)(arr)char myCharArray;
-        //  char* myCharArray = 0;
-        RegexReplace(@"\((zero)\)([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+);", "$2 $3 = 0;");
+        //  p == s[0] ? {
+        //     printf("p == s[0]\n");
+        //  } : {
+        //     printf("p != s[0]\n");
+        //  }
+        //  if (p == s[0]) {
+        //     printf("p == s[0]\n");
+        //  } else {
+        //     printf("p != s[0]\n");
+        //  }
+        List<string> operators = new List<string>() {
+            "==", "!=", "<", ">", "<=", ">="
+        };
+
+        foreach (string op in operators) {
+            RegexReplace(@"\s*(\S+)\s*" + op + @"\s*(\S+)\s*\?\s*{", "\n\tif ($1 " + op + " $2) {");
+        }
+
+        // :
+        RegexReplace(@"}\s*:\s*{", "} else {");
+
+        // NLang string variable equality:
+        //  a s== b
+        // C:
+        //  strcmp(a, b) == 0
+        // Example:
+        // if (argv[1] s== argv[2]) { ... }
+        // if (strcmp(argv[1], argv[2]) == 0) { ... }
+        // Ignore ('s in the string, but keep [
+        RegexReplace(@"\s*([a-zA-Z0-9""_\[\]]+)\s*s==\s*([a-zA-Z0-9""_\[\]]+)\s*", "strcmp($1, $2) == 0");
+
+        // NLang jump:
+        //  jump <label>;
+        // C:
+        //  goto <label>;
+        RegexReplace(@"jump\s+(.+);", "goto $1;");
+
+        // NLang zero:
+        //  zero <var>;
+        // C:
+        //  memset(&<var>, 0, sizeof(<var>));
+        RegexReplace(@"zero\s+(.+);", "memset(&$1, 0, sizeof($1));");
+
+
 
         return data.Split("\r\n");
     }
