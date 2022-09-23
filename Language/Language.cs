@@ -115,9 +115,16 @@ public static class NLanguage {
         // Example:
         //  if (a s== b && c s== d) { ... }
         //  if (strcmp(a, b) == 0 && strcmp(c, d) == 0) { ... }
-        RegexReplace(@"\(\s*(\S+)\s*s==\s*(\S+)\s*", "(strcmp($1, $2) == 0 ");
-        RegexReplace(@"\s*(\|\||&&)\s*(\S+)\s*s==\s*(\S+)\s*\)", " $1 strcmp($2, $3) == 0)");
-        RegexReplace(@"\s*(\|\||&&)\s*(\S+)\s*s==\s*(\S+)\s*", " $1 strcmp($2, $3) == 0 ");
+        List<string> sopers = new List<string> {
+            "s==", "s!="
+        };
+
+        foreach (string op in sopers) {
+            RegexReplace(@"\(\s*(\S+)\s*s" + op + @"\s*(\S+)\s*\)", "(strcmp($1, $2) " + op + " 0)");
+            RegexReplace(@"\(\s*(\S+)\s*s" + op + @"\s*(\S+)\s*", "(strcmp($1, $2) " + op + " 0 ");
+            RegexReplace(@"\s*(\|\||&&)\s*(\S+)\s*s" + op + @"\s*(\S+)\s*\)", " $1 strcmp($2, $3) " + op + " 0)");
+            RegexReplace(@"\s*(\|\||&&)\s*(\S+)\s*s" + op + @"\s*(\S+)\s*", " $1 strcmp($2, $3) " + op + " 0 ");
+        }
 
         // NLang jump:
         //  jump <label>;

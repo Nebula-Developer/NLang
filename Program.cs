@@ -49,7 +49,6 @@ public static class Program {
         String[] data = NLang.Language.NLanguage.Run(input);
         String name = Path.GetFileNameWithoutExtension(input);
 
-        File.WriteAllLines("nlbin/c/" + name + ".c", data);
         NLang.Compile.Compiler.Compile(data, name, output);
     }
 }

@@ -9,9 +9,8 @@ public static class Compiler {
         Process p = new Process();
         p.StartInfo.FileName = "/usr/local/bin/gcc-12";
         Directory.CreateDirectory("nlbin");
-        Directory.CreateDirectory("nlbin/c/");
-        File.WriteAllLines("nlbin/c/" + name + ".c", data);
-        p.StartInfo.Arguments = $"-o {output} nlbin/c/{name}.c";
+        File.WriteAllLines("nlbin/" + name + ".c", data);
+        p.StartInfo.Arguments = $"-o {output} nlbin/{name}.c";
         p.StartInfo.UseShellExecute = false;
         p.StartInfo.RedirectStandardOutput = true;
         p.StartInfo.RedirectStandardError = true;
