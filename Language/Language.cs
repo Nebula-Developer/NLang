@@ -18,6 +18,9 @@ public static class NLanguage {
         List<(string, string)> Predefs = new List<(string, string)>();
         Predefs.Add(("print", "printf"));
         Predefs.Add(("string", "char*"));
+        Predefs.Add(("bool", "int"));
+        Predefs.Add(("true", "1"));
+        Predefs.Add(("false", "0"));
 
         foreach ((string, string) predef in Predefs) {
             data = "#define " + predef.Item1 + " " + predef.Item2 + "\n" + data;
@@ -106,14 +109,15 @@ public static class NLanguage {
         RegexReplace(@"}\s*:\s*{", "} else {");
 
         // NLang string variable equality:
-        //  a s== b
+        //  (a s== b)
         // C:
-        //  strcmp(a, b) == 0
+        //  (strcmp(a, b) == 0)
         // Example:
-        // if (argv[1] s== argv[2]) { ... }
-        // if (strcmp(argv[1], argv[2]) == 0) { ... }
-        // Ignore ('s in the string, but keep [
-        RegexReplace(@"\s*([a-zA-Z0-9""_\[\]]+)\s*s==\s*([a-zA-Z0-9""_\[\]]+)\s*", "strcmp($1, $2) == 0");
+        //  if (a s== b && c s== d) { ... }
+        //  if (strcmp(a, b) == 0 && strcmp(c, d) == 0) { ... }
+        RegexReplace(@"\(\s*(\S+)\s*s==\s*(\S+)\s*", "(strcmp($1, $2) == 0 ");
+        RegexReplace(@"\s*(\|\||&&)\s*(\S+)\s*s==\s*(\S+)\s*\)", " $1 strcmp($2, $3) == 0)");
+        RegexReplace(@"\s*(\|\||&&)\s*(\S+)\s*s==\s*(\S+)\s*", " $1 strcmp($2, $3) == 0 ");
 
         // NLang jump:
         //  jump <label>;

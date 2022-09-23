@@ -120,8 +120,8 @@
       "extensions": [".nl",".nlang"],
       "configuration": "./language-configuration.json",
       "icon": {
-        "light": "./icon.png",
-        "dark": "./icon.png"
+        "light": "./icon/icon.png",
+        "dark": "./icon/icon.png"
       }
     }],
     "grammars": [{

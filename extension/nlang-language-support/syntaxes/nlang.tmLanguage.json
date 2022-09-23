@@ -7,6 +7,7 @@
 		{ "include": "#functions" },
 		{ "include": "#modifiers" },
 		{ "include": "#keywords" },
+		{ "include": "#types" },
 		{ "include": "#strings" },
 		{ "include": "#numbers" },
 		{ "include": "#operators" },
@@ -40,8 +41,16 @@
 		"keywords": {
 			"patterns": [
 				{
-					"match": "\\b(abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|goto|if|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while)\\b",
+					"match": "\\b(while|true|false|if|else|case|switch|default|break|continue|return|for|foreach|in|goto|jump|memset|memcpy|strcmp|strcpy|memcpy|sprintf|print|printf)\\b",
 					"name": "keyword.nlang"
+				}
+			]
+		},
+		"types": {
+			"patterns": [
+				{
+					"match": "\\b(int|float|double|bool|string|void|char|byte|short|long|size_t|signed|unsigned|struct|union|enum)\\b",
+					"name": "storage.type.nlang"
 				}
 			]
 		},
@@ -98,8 +107,14 @@
 		"operators": {
 			"patterns": [
 				{
-					"match": "\\s==|\\s!=\\|\\+|\\-|\\*|\\/|\\%|\\&\\&|\\|\\||\\!|\\=\\=|\\!\\=|\\<|\\>|\\<\\=|\\>\\=|\\=|\\+\\=|\\-\\=|\\*\\=|\\/\\=|\\%\\=|\\&\\=|\\|\\=|\\^\\=|\\&\\&\\=|\\|\\|\\=|\\?|\\:|\\,|\\;|\\.",
+					"match": "\\+|\\-|\\*|\\/|\\%|\\&\\&|\\|\\||\\!|\\=\\=|\\!\\=|\\<|\\>|\\<\\=|\\>\\=|\\=|\\+\\=|\\-\\=|\\*\\=|\\/\\=|\\%\\=|\\&\\=|\\|\\=|\\^\\=|\\&\\&\\=|\\|\\|\\=|\\?|\\:|\\,|\\;|\\.",
 					"name": "keyword.operator.nlang"
+				},
+				{
+					"match": "(?<!\\w)(s)(?==|!=)",
+					"captures": {
+						"1": { "name": "keyword.operator.nlang" }
+					}
 				},
 				{
 					"match": "(\\bfunc\\b)(\\s+)([a-zA-Z_][a-zA-Z0-9_]*)(\\s*)(\\()",
