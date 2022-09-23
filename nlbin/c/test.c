@@ -7,7 +7,9 @@
 int main(int argc, string **argv) {
     string s[] = { "hello", "world" };
     char* p = s[0];
-    memcpy(p, s[1], sizeof(s[1]));
+    p = s[1];
+    (arr)char z = 0;
+    printf("%s\n", z);
     printf("%s\n", p);
     return 0;
 }

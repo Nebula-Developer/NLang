@@ -84,7 +84,14 @@ public static class NLanguage {
         //  typedef struct { ... } <name>;
         RegexReplace(@"class\s+([a-zA-Z0-9_]+)\s*{", "typedef struct {");
 
-        
+        // NLang zero:
+        //  (zero)int myInt;
+        // C:
+        //  int myInt = 0;
+        // Example:
+        //  (zero)(arr)char myCharArray;
+        //  char* myCharArray = 0;
+        RegexReplace(@"\((zero)\)([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+);", "$2 $3 = 0;");
 
         return data.Split("\r\n");
     }
