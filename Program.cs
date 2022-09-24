@@ -8,8 +8,9 @@ namespace NLang;
 public static class Program {
     public static void Main(String[] args) {
         String output = "main.nlout";
-        String input = "";
+        String? input = null;
 
+        void fail() { Environment.Exit(1); return; }
         List<string> outputArgs = new List<string> { "-o", "--output", "--out" };
 
         if (args.Contains("--help") || args.Contains("-h")) {
@@ -19,6 +20,7 @@ public static class Program {
             Console.WriteLine("Options:");
             Console.WriteLine("-o|--output|--out <file>    Specify output file");
             Console.WriteLine("-h|--help                   Show this help message");
+            Environment.Exit(0);
             return;
         }
 
@@ -30,26 +32,27 @@ public static class Program {
                     i++;
                 } else {
                     Console.WriteLine("Error: No output file specified.");
-                    Environment.Exit(1);
+                    fail();
                 }
             } else {
-                if (input == "") {
-                    input = arg;
-                } else {
+                if (input != null) {
                     Console.WriteLine("Error: Too many input files.");
-                    Environment.Exit(1);
+                    fail();
                 }
+                
+                input = arg;
             }
         }
 
-        if (input == "") {
+        if (input == null) {
             Console.WriteLine("Error: No input file specified.\nUse --help for more information.");
-            Environment.Exit(1);
+            fail();
+            return; // Prevent compiler warning
         }
 
         if (!File.Exists(input)) {
             Console.WriteLine("Error: Input file does not exist.");
-            Environment.Exit(1);
+            fail();
         }
 
         String[] data = NLang.Language.NLanguage.Run(input);
