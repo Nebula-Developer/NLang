@@ -37,6 +37,10 @@ public static class NLanguage {
         //  int main(int argc, char* argv[]) { ... }
         // Ignore spaces between ( and ) and between [ and ] and -> etc.
         RegexReplace(@"func\s+([a-zA-Z0-9_]+)\s*\((.*)\)\s*->\s*([a-zA-Z0-9_]+)\s*{", "$3 $1($2) {");
+        // func <name>(<args>) -> <return type> => <single line of code to return>;
+        // C:
+        // <return type> <name>(<args>) { return <single line of code to return>; }
+        RegexReplace(@"func\s+([a-zA-Z0-9_]+)\s*\((.*)\)\s*->\s*([a-zA-Z0-9_]+)\s*=>\s*(.+);", "$3 $1($2) { $4; }");
 
         // NLang foreach:
         // foreach (char curChar in arr) { ... } // Where arr is an **char
@@ -129,6 +133,25 @@ public static class NLanguage {
         // C:
         //  memset(&<var>, 0, sizeof(<var>));
         RegexReplace(@"zero\s+(.+);", "memset(&$1, 0, sizeof($1));");
+
+        // NLang class function:
+        //  func <classname>.<funcname>(<args>) -> <returntype> { ... }
+        // C:
+        //  <returntype> <classname>_<funcname>(<args>) { ... }
+        RegexReplace(@"func\s+([a-zA-Z0-9_]+)\.([a-zA-Z0-9_]+)\s*\((.+)\)\s*->\s*([a-zA-Z0-9_]+)\s*{", "$4 $1_$2($3) {");
+        // Single return line:
+        //  func <classname>.<funcname>(<args>) -> <returntype> => <single return line>;
+        // C:
+        //  <returntype> <classname>_<funcname>(<args>) { return <single return line>; }
+        RegexReplace(@"func\s+([a-zA-Z0-9_]+)\.([a-zA-Z0-9_]+)\s*\((.+)\)\s*->\s*([a-zA-Z0-9_]+)\s*=>\s*(.+);", "$4 $1_$2($3) { $5; }");
+
+
+        
+        // NLang call class function:
+        //  <classname>.<funcname>(...)
+        // C:
+        //  <classname>_<funcname>(...)
+        RegexReplace(@"([a-zA-Z0-9_]+)\.([a-zA-Z0-9_]+)\s*\(", "$1_$2(");
 
         // NLang import:
         //  import <file>;

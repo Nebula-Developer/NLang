@@ -61,6 +61,13 @@
 					"captures": {
 						"1": { "name": "entity.name.function.nlang" }
 					}
+				},
+				{
+					"match": "(\\w+)\\.(\\w+)\\(",
+					"captures": {
+						"1": { "name": "entity.name.function.nlang" },
+						"2": { "name": "entity.name.function.nlang" }
+					}
 				}
 			]
 		},
@@ -124,6 +131,20 @@
 						"3": { "name": "entity.name.function.nlang" },
 						"4": { "name": "text.nlang" },
 						"5": { "name": "punctuation.definition.parameters.begin.nlang" }
+					}
+				},
+				{
+					"match": "(\\bfunc\\b)(\\s+)([a-zA-Z_][a-zA-Z0-9_]*)(\\s*)(\\.)(\\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\\s*)(\\()",
+					"captures": {
+						"1": { "name": "storage.type.function.nlang" },
+						"2": { "name": "text.nlang" },
+						"3": { "name": "entity.name.function.nlang" },
+						"4": { "name": "text.nlang" },
+						"5": { "name": "punctuation.definition.parameters.begin.nlang" },
+						"6": { "name": "text.nlang" },
+						"7": { "name": "entity.name.function.nlang" },
+						"8": { "name": "text.nlang" },
+						"9": { "name": "punctuation.definition.parameters.begin.nlang" }
 					}
 				}
 			]
