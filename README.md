@@ -64,4 +64,15 @@ Then we can compile it with:
 
 Now we have our executable:
 
-```./hello```<br />
+```./hello```
+
+<br />
+
+## Documentation
+Documentation is currently being worked on, and will be available soon. <br />
+For now, you can check out the examples folder for some examples of NLang code.
+
+<br />
+
+## Contributing
+Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) before contributing.

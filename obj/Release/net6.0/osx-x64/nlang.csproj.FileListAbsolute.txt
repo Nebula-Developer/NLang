@@ -1,0 +1,15 @@
+/Users/nicocook/Documents/nlang_new/bin/Release/net6.0/osx-x64/nlang
+/Users/nicocook/Documents/nlang_new/bin/Release/net6.0/osx-x64/nlang.deps.json
+/Users/nicocook/Documents/nlang_new/bin/Release/net6.0/osx-x64/nlang.runtimeconfig.json
+/Users/nicocook/Documents/nlang_new/bin/Release/net6.0/osx-x64/nlang.dll
+/Users/nicocook/Documents/nlang_new/bin/Release/net6.0/osx-x64/nlang.pdb
+/Users/nicocook/Documents/nlang_new/obj/Release/net6.0/osx-x64/nlang.csproj.AssemblyReference.cache
+/Users/nicocook/Documents/nlang_new/obj/Release/net6.0/osx-x64/nlang.GeneratedMSBuildEditorConfig.editorconfig
+/Users/nicocook/Documents/nlang_new/obj/Release/net6.0/osx-x64/nlang.AssemblyInfoInputs.cache
+/Users/nicocook/Documents/nlang_new/obj/Release/net6.0/osx-x64/nlang.AssemblyInfo.cs
+/Users/nicocook/Documents/nlang_new/obj/Release/net6.0/osx-x64/nlang.csproj.CoreCompileInputs.cache
+/Users/nicocook/Documents/nlang_new/obj/Release/net6.0/osx-x64/nlang.dll
+/Users/nicocook/Documents/nlang_new/obj/Release/net6.0/osx-x64/refint/nlang.dll
+/Users/nicocook/Documents/nlang_new/obj/Release/net6.0/osx-x64/nlang.pdb
+/Users/nicocook/Documents/nlang_new/obj/Release/net6.0/osx-x64/nlang.genruntimeconfig.cache
+/Users/nicocook/Documents/nlang_new/obj/Release/net6.0/osx-x64/ref/nlang.dll
