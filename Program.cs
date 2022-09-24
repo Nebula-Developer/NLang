@@ -7,8 +7,9 @@ namespace NLang;
 
 public static class Program {
     public static void Main(String[] args) {
-        String output = "main.nlout";
+        String? output = null;
         String? input = null;
+        bool outputC = false;
 
         void fail() { Environment.Exit(1); return; }
         List<string> outputArgs = new List<string> { "-o", "--output", "--out" };
@@ -24,6 +25,8 @@ public static class Program {
             return;
         }
 
+        
+
         for (int i = 0; i < args.Length; i++) {
             String arg = args[i];
             if (outputArgs.Contains(arg)) {
@@ -34,7 +37,11 @@ public static class Program {
                     Console.WriteLine("Error: No output file specified.");
                     fail();
                 }
-            } else {
+            }
+            else if (arg.Contains("-c") || arg.Contains("--compilec")) {
+                outputC = true;
+            }
+            else {
                 if (input != null) {
                     Console.WriteLine("Error: Too many input files.");
                     fail();
@@ -57,6 +64,11 @@ public static class Program {
 
         String[] data = NLang.Language.NLanguage.Run(input);
         String name = Path.GetFileNameWithoutExtension(input);
+
+        if (outputC) {
+            NLang.Compile.Compiler.CompileC(data, name, output);
+            return;
+        }
 
         NLang.Compile.Compiler.Compile(data, name, output);
     }
