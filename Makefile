@@ -1,4 +1,4 @@
-.PHONY: detect build-windows build-mac build-linux install-mac install-osx
+.PHONY: detect build-windows build-mac build-linux install-mac install-linux clean
 
 OS := $(shell uname)
 
@@ -32,3 +32,6 @@ install-mac:
 install-linux:
 	@echo "Installing nlang to /usr/bin: (You may need to enter your password)"
 	sudo cp ./build/nlang /usr/bin/nlang
+
+clean:
+	rm -rf build bin obj

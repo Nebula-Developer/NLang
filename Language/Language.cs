@@ -146,6 +146,8 @@ public static class NLanguage {
         RegexReplace(@"func\s+([a-zA-Z0-9_]+)\.([a-zA-Z0-9_]+)\s*\((.+)\)\s*->\s*([a-zA-Z0-9_]+)\s*=>\s*(.+);", "$4 $1_$2($3) { $5; }");
 
 
+
+
         
         // NLang call class function:
         //  <classname>.<funcname>(...)
