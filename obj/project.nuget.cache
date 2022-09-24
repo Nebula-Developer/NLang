@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "cZGCuzyrT10pdgS++1PnfPULRUidtLO3jjfoT9KkphQgT4ejmm0dHwCsOKUAoQNb4h3J/CDYTj8JgrQq5zaeyw==",
-  "success": true,
+  "dgSpecHash": "lAHtYNq3t+HVI8gkYCKvh3+1LcaEJs0+VU1L6e1uSgeAAIyp8S7YJCuBbNlA08zDlF2m1vYXfu2lWQof9KTWNg==",
+  "success": false,
   "projectFilePath": "/Users/nicocook/Documents/nlang_new/nlang.csproj",
   "expectedPackageFiles": [],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1301",
+      "level": "Error",
+      "message": "The local source '/opt/cosmos/Packages/' doesn't exist.",
+      "libraryId": "Microsoft.NETCore.App.Host.win-x64"
+    }
+  ]
 }

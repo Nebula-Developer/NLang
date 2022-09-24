@@ -16,6 +16,10 @@ public static class NLanguage {
             data = Regex.Replace(data, regex, replace);
         }
 
+        // Remove comments (// and /* ... */)
+        RegexReplace(@"//.*", "");
+        RegexReplace(@"/\*.*?\*/", "");
+
         // Local CImport:
         //  cimport "file.h";
         // C:
@@ -144,10 +148,6 @@ public static class NLanguage {
         // C:
         //  <returntype> <classname>_<funcname>(<args>) { return <single return line>; }
         RegexReplace(@"func\s+([a-zA-Z0-9_]+)\.([a-zA-Z0-9_]+)\s*\((.+)\)\s*->\s*([a-zA-Z0-9_]+)\s*=>\s*(.+);", "$4 $1_$2($3) { $5; }");
-
-
-
-
         
         // NLang call class function:
         //  <classname>.<funcname>(...)
