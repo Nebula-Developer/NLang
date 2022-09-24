@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/nicocook/Documents/nlang/nlang.csproj": {}
+    "/Users/nicocook/Documents/nlang_new/nlang.csproj": {}
   },
   "projects": {
-    "/Users/nicocook/Documents/nlang/nlang.csproj": {
+    "/Users/nicocook/Documents/nlang_new/nlang.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/nicocook/Documents/nlang/nlang.csproj",
+        "projectUniqueName": "/Users/nicocook/Documents/nlang_new/nlang.csproj",
         "projectName": "nlang",
-        "projectPath": "/Users/nicocook/Documents/nlang/nlang.csproj",
+        "projectPath": "/Users/nicocook/Documents/nlang_new/nlang.csproj",
         "packagesPath": "/Users/nicocook/.nuget/packages/",
-        "outputPath": "/Users/nicocook/Documents/nlang/obj/",
+        "outputPath": "/Users/nicocook/Documents/nlang_new/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/nicocook/.nuget/NuGet/NuGet.Config"
@@ -20,6 +20,8 @@
           "net6.0"
         ],
         "sources": {
+          "/opt/cosmos/Packages/": {},
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,7 +45,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -52,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/6.0.104_1/libexec/sdk/6.0.104/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.401/RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

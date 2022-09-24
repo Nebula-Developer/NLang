@@ -10,11 +10,17 @@ public static class Program {
         String output = "main.nlout";
         String input = "";
 
-        List<string> outputArgs = new List<string> {
-            "-o",
-            "--output",
-            "--out"
-        };
+        List<string> outputArgs = new List<string> { "-o", "--output", "--out" };
+
+        if (args.Contains("--help") || args.Contains("-h")) {
+            Console.WriteLine("Usage: nlang [options] <input file>\n");
+            Console.WriteLine("Example:");
+            Console.WriteLine("nlang -o ./main ./main.nl\n");
+            Console.WriteLine("Options:");
+            Console.WriteLine("-o|--output|--out <file>    Specify output file");
+            Console.WriteLine("-h|--help                   Show this help message");
+            return;
+        }
 
         for (int i = 0; i < args.Length; i++) {
             String arg = args[i];
@@ -37,7 +43,7 @@ public static class Program {
         }
 
         if (input == "") {
-            Console.WriteLine("Error: No input file specified.");
+            Console.WriteLine("Error: No input file specified.\nUse --help for more information.");
             Environment.Exit(1);
         }
 
