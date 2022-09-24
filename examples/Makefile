@@ -13,3 +13,4 @@ rebuild:
 %: %.nl
 	@echo "Compiling $<..."
 	$(NL) $< -o out/$@
+	@chmod +x out/$@
