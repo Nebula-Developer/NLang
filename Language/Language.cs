@@ -8,22 +8,12 @@ namespace NLang.Language;
 
 
 public static class NLanguage {
-    public static string[] Run(String path) {
-        String data = File.ReadAllText(path);
+    public static string[] Run(String path, bool addImports = true) {
+        String data = "";
+        data = File.ReadAllText(path);
         
         void RegexReplace(String regex, String replace) {
             data = Regex.Replace(data, regex, replace);
-        }
-
-        List<(string, string)> Predefs = new List<(string, string)>();
-        Predefs.Add(("print", "printf"));
-        Predefs.Add(("string", "char*"));
-        Predefs.Add(("bool", "int"));
-        Predefs.Add(("true", "1"));
-        Predefs.Add(("false", "0"));
-
-        foreach ((string, string) predef in Predefs) {
-            data = "#define " + predef.Item1 + " " + predef.Item2 + "\n" + data;
         }
 
         // Local CImport:
@@ -52,6 +42,8 @@ public static class NLanguage {
         // foreach (char curChar in arr) { ... } // Where arr is an **char
         // for (int i = 0; i < sizeof(arr)/sizeof(arr[0]); i++) { char curChar = arr[i]; ... }
         RegexReplace(@"foreach\s*\(\s*([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)\s+in\s+([a-zA-Z0-9_]+)\s*\)\s*{", "for (int i = 0; i < sizeof($3)/sizeof($3[0]); i++) { $1 $2 = $3[i];");
+        // foreach (...) ...;
+        RegexReplace(@"foreach\s*\(\s*([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)\s+in\s+([a-zA-Z0-9_]+)\s*\)\s*(.+);", "for (int i = 0; i < sizeof($3)/sizeof($3[0]); i++) { $1 $2 = $3[i]; $4; }");
 
         // NLang bodyless foreach:
         // foreach (char curChar in arr) printf("%c", curChar);
@@ -138,7 +130,35 @@ public static class NLanguage {
         //  memset(&<var>, 0, sizeof(<var>));
         RegexReplace(@"zero\s+(.+);", "memset(&$1, 0, sizeof($1));");
 
+        // NLang import:
+        //  import <file>;
+        // This will add the contents of the NLang file to the top of the current file.
+        // (It will also run the text through the NLang compiler.)
+        Regex r = new Regex(@"import\s+""(.+)"";");
+        MatchCollection matches = r.Matches(data);
 
+        foreach (Match match in matches) {
+            string file = match.Groups[1].Value;
+            String[] fRunData = Run(file, false);
+
+            string fData = String.Join("\r\n", fRunData);
+            data = fData + "\r\n" + data;
+            // Remove the import line
+            data = data.Replace(match.Value, "");
+        }
+
+        List<(string, string)> Predefs = new List<(string, string)>();
+        Predefs.Add(("print", "printf"));
+        Predefs.Add(("string", "char*"));
+        Predefs.Add(("bool", "int"));
+        Predefs.Add(("true", "1"));
+        Predefs.Add(("false", "0"));
+
+        if (addImports) {
+            foreach ((string, string) predef in Predefs) {
+                data = "#define " + predef.Item1 + " " + predef.Item2 + "\n" + data;
+            }
+        }
 
         return data.Split("\r\n");
     }
