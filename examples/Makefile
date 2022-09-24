@@ -7,4 +7,6 @@ OBJS := $(SRCS:.nl=)
 all: $(OBJS)
 
 %: %.nl
-	$(NL) $< -o $@
+	@echo "Compiling $<..."
+	$(NL) $< -o out/$@
+	$(NL) -c $< -o c/$@
