@@ -6,29 +6,41 @@ using System.Text.RegularExpressions;
 namespace NLang.Compile;
 
 public static class Compiler {
-    public static string TrimWhitespace(string str) {
-        Regex regex = new Regex(@"\s+");
-        return regex.Replace(str, " ");
+    public static bool IsOnlyspaces(String str) {
+        return str.Trim().Length == 0;
     }
 
-    public static void Compile(String[] data, String name, String? output) {
+    public static string TrimWhitespace(string str) {
+        if (IsOnlyspaces(str)) return "";
+        return str.TrimStart().TrimEnd() + "\n";
+    }
+
+    public static void Compile(String[] data, String name, String? output, String gcc = "gcc") {
         output = output ?? "main.nlout";
         Process p = new Process();
-        p.StartInfo.FileName = "/usr/local/bin/gcc-12";
+        p.StartInfo.FileName = gcc;
         Directory.CreateDirectory("nlbin");
         File.WriteAllLines("nlbin/" + name + ".c", data);
         p.StartInfo.Arguments = $"-o {output} nlbin/{name}.c";
         p.StartInfo.UseShellExecute = false;
         p.StartInfo.RedirectStandardOutput = true;
         p.StartInfo.RedirectStandardError = true;
-        p.Start();
+        
+        try {
+            p.Start();
+        } catch {
+            Console.WriteLine("Failed to execute GCC.");
+            Console.WriteLine("Please define the GCC (or other compiler) path with -g <path>");
+            Environment.Exit(1);
+            return;
+        }
 
         p.WaitForExit();
-        Console.WriteLine(TrimWhitespace(p.StandardOutput.ReadToEnd()));
-        Console.WriteLine(TrimWhitespace(p.StandardError.ReadToEnd()));
+        Console.Write(TrimWhitespace(p.StandardOutput.ReadToEnd()));
+        Console.Write(TrimWhitespace(p.StandardError.ReadToEnd()));
     }
 
-    public static void CompileC(String[] data, String? c_output) {
+    public static void CompileC(String[] data, String? c_output, String gcc = "gcc") {
         c_output = c_output ?? "main.c";
         if (!c_output.EndsWith(".c"))
             c_output += ".c";
@@ -36,15 +48,23 @@ public static class Compiler {
         File.WriteAllLines(c_output, data);
 
         Process p = new Process();
-        p.StartInfo.FileName = "/usr/local/bin/gcc-12";
+        p.StartInfo.FileName = gcc;
         p.StartInfo.Arguments = $"-o {c_output.Replace(".c", "")} {c_output}";
         p.StartInfo.UseShellExecute = false;
         p.StartInfo.RedirectStandardOutput = true;
         p.StartInfo.RedirectStandardError = true;
-        p.Start();
+
+        try {
+            p.Start();
+        } catch {
+            Console.WriteLine("Failed to execute GCC.");
+            Console.WriteLine("Please define the GCC (or other compiler) path with -g <path>");
+            Environment.Exit(1);
+            return;
+        }
 
         p.WaitForExit();
-        Console.WriteLine(TrimWhitespace(p.StandardOutput.ReadToEnd()));
-        Console.WriteLine(TrimWhitespace(p.StandardError.ReadToEnd()));
+        Console.Write(TrimWhitespace(p.StandardOutput.ReadToEnd()));
+        Console.Write(TrimWhitespace(p.StandardError.ReadToEnd()));
     }
 }

@@ -6,4 +6,4 @@ func main(int argc, (arr)string argv) -> int {
         printf("%s\n", argv[i]);
 
     return 0;
-}
+}d
