@@ -66,7 +66,7 @@ public static class Program {
         String name = Path.GetFileNameWithoutExtension(input);
 
         if (outputC) {
-            NLang.Compile.Compiler.CompileC(data, name, output);
+            NLang.Compile.Compiler.CompileC(data, output);
             return;
         }
 
