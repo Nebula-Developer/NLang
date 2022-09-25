@@ -183,7 +183,7 @@ public static class Program {
                 "cimport stdio.h;",
                 "",
                 "func main(int argc, (arr)string argv) -> int {",
-                "    printf(\"Hello, world!\");",
+                "    printf(\"Hello, world!\\n\");",
                 "    return 0;",
                 "}"
             };
@@ -206,9 +206,7 @@ public static class Program {
                         $"NAME={name}",
                         $"NLANG=nlang",
                         "",
-                        $"all: {name}",
-                        "",
-                        $"{name}:",
+                        $"$(name): $(NAME).nl",
                         $"\t$(NLANG) -o $(NAME) $(NAME).nl"
                     };
 
