@@ -7,6 +7,8 @@ using System.Diagnostics;
 namespace NLang;
 
 public static class Program {
+    public static Version version = new Version(0, 1, 1);
+
     public static void Main(String[] args) {
         Stopwatch main = new Stopwatch();
         main.Start();
@@ -35,6 +37,12 @@ public static class Program {
             Console.WriteLine("-g|--gcc <path>             Specify GCC path");
             Console.WriteLine("-d|--debug                  Enable debug mode");
             Console.WriteLine("-n|--new                    Create a new project (nlang -n -h for more information)");
+            Environment.Exit(0);
+            return;
+        }
+
+        if (args.Contains("--version") || args.Contains("-v")) {
+            Console.WriteLine("NLang version " + version.ToString());
             Environment.Exit(0);
             return;
         }
@@ -230,5 +238,33 @@ public static class Program {
             Environment.Exit(1);
             return;
         }
+    }
+}
+
+public class Version {
+    public int Major;
+    public int Minor;
+    public int Patch;
+
+    public Version(int major, int minor, int patch) {
+        Major = major;
+        Minor = minor;
+        Patch = patch;
+    }
+
+    public Version(String version) {
+        String[] data = version.Split('.');
+
+        if (data.Length != 3) {
+            throw new Exception("Invalid version string.");
+        }
+
+        Major = int.Parse(data[0]);
+        Minor = int.Parse(data[1]);
+        Patch = int.Parse(data[2]);
+    }
+
+    public override String ToString() {
+        return $"{Major}.{Minor}.{Patch}";
     }
 }
