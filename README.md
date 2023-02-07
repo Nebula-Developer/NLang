@@ -54,7 +54,7 @@ Lets say we want to compile a simple hello world program, we can do this:<br />
 cimport stdio.h;
 
 func main(int args, (arr)string argv) -> int {
-    printf"Hello, world!\n");
+    printf("Hello, world!\n");
     return 0;
 }
 ```
